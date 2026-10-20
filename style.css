@@ -164,8 +164,8 @@ section {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 90px;
-  height: 90px;
+  width: 60px;
+  height: 60px;
   transform: translate(-50%, -50%);
   border: 2px solid #b88a4a;
   border-radius: 50%;
