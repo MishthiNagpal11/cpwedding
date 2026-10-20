@@ -10,7 +10,7 @@ const CFG = {
     "Smt. Veera Devi & Late Sh. Brij Lal Takkar",
   ],
   familyNames: ["Mrs. Shammi & Mr. Mahesh Takkar"],
-  brideFamily: "Mrs. Ruchi & Mr. Dinesh Harjai",
+  brideFamily: "D/O Mrs. Ruchi & Mr. Dinesh Harjai",
   familyHeading: "Takkar Family",
   events: [
     {
@@ -19,6 +19,7 @@ const CFG = {
       d: "An enchanting evening of music, dance and unforgettable memories.",
       date: "1<sup>st</sup> December",
       time: "11:00 AM",
+      venue: "The Page, Rohtak",
     },
     {
       cls: "r",
@@ -26,6 +27,7 @@ const CFG = {
       d: "A golden promise exchanged by candlelight, among flowers and family.",
       date: "1<sup>st</sup> December",
       time: "7:30 PM",
+      venue: "The Page, Rohtak",
     },
     {
       cls: "h",
@@ -33,6 +35,7 @@ const CFG = {
       d: "A pop of hot pink for her, a touch of lavender for him.",
       date: "2<sup>nd</sup> December",
       time: "11:00 AM",
+      venue: "The Page, Rohtak",
     },
     {
       cls: "w",
@@ -40,9 +43,13 @@ const CFG = {
       d: "Two hearts, one forever, surrounded by the people we love.",
       date: "2<sup>nd</sup> December",
       time: "7:00 PM",
+      venue: "Zorbagh Banquet, Rohtak",
     },
   ],
   venue: {
+    name: "The Page",
+    city: "Rohtak, Haryana",
+    mapQuery: "wedding venue",
     name: "Zorbagh Banquet",
     city: "Rohtak, Haryana",
     mapQuery: "wedding venue",

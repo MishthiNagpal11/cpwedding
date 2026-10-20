@@ -162,10 +162,10 @@ section {
 }
 .logo-circle {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 60px;
-  height: 60px;
+  left: 60%;
+  top: 60%;
+  width: 80px;
+  height: 80px;
   transform: translate(-50%, -50%);
   border: 2px solid #b88a4a;
   border-radius: 50%;
@@ -178,8 +178,8 @@ section {
 
 .logo-circle .logo {
   position: static;
-  width: 65%;
-  height: 65%;
+  width: 75%;
+  height: 75%;
   transform: none;
   filter: none;
   object-fit: contain;
