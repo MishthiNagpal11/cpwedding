@@ -46,15 +46,27 @@ const CFG = {
       venue: "Zorbagh Banquet, Rohtak",
     },
   ],
-  venue: {
-    name: "The Page",
-    city: "Rohtak, Haryana",
-    mapQuery: "wedding venue",
-    name: "Zorbagh Banquet",
-    city: "Rohtak, Haryana",
-    mapQuery: "wedding venue",
-  },
-  hashtag: "#HumPARCHhaayaIshq",
+
+  venues: [
+    {
+      id: "venue1",
+      title: "Where We Begin",
+      name: "The Page",
+      city: "Rohtak, Haryana",
+      mapUrl: "https://maps.app.goo.gl/4jkMCLsJFJkvtWLP6",
+      image: "images/thePage.jpg",
+    },
+    {
+      id: "venue2",
+      title: "Where We Continue",
+      name: "Zorbagh Banquet",
+      city: "Rohtak, Haryana",
+      mapUrl: "https://maps.app.goo.gl/Cwbtrp21qiRQL9d69",
+      image: "images/zorbagh.jpg",
+    },
+  ],
+
+  hashtag: "#HumPARCHhayaIshq",
   images: { sky: "", haldi: "", sangeet: "", ring: "", wedding: "", venue: "" }, // optional: paste image URLs / data URIs to replace the drawn backgrounds
 };
 /* ==================== */
@@ -73,11 +85,40 @@ $("fd").textContent = "1st & 2nd December " + Y;
 $("fh2").textContent = CFG.hashtag;
 $("fh").textContent = CFG.familyHeading;
 
-$("vn").textContent = CFG.venue.name;
-$("vc").textContent = CFG.venue.city;
-$("vm").href =
-  "https://www.google.com/maps/search/?api=1&query=" +
-  encodeURIComponent(CFG.venue.mapQuery);
+/* Render both venue sections in CFG.venues order */
+const venueSections = document.querySelectorAll(".venue-section");
+
+CFG.venues.forEach((venue, index) => {
+  const section = venueSections[index];
+
+  // Skip if the matching HTML section doesn't exist.
+  if (!section) return;
+
+  const title = section.querySelector("h2");
+  const name = section.querySelector("h3");
+  const location = section.querySelector(".venue-location");
+  const directions = section.querySelector(".directions-btn");
+  const number = section.querySelector(".venue-number");
+
+  if (title) title.textContent = venue.title;
+  if (name) name.textContent = venue.name;
+  if (location) location.textContent = venue.city;
+
+  if (directions && venue.mapUrl) {
+    directions.href = venue.mapUrl;
+    directions.target = "_blank";
+    directions.rel = "noopener noreferrer";
+  }
+
+  if (number) {
+    number.textContent = String(index + 1).padStart(2, "0");
+  }
+
+  if (venue.image) {
+    section.style.setProperty("--venue-image", `url("${venue.image}")`);
+  }
+});
+
 $("ev").innerHTML = CFG.events
   .map(
     (e) =>
@@ -97,7 +138,6 @@ if (I.sky) $("sky").style.background = `url(${I.sky}) center/cover`;
     if (el) el.style.backgroundImage = `url(${I[k]})`;
   }
 });
-if (I.venue) $("venue").style.background = `url(${I.venue}) center/cover`;
 
 /* envelope */
 const env = $("env");
@@ -209,6 +249,35 @@ if (!rm)
     },
     { passive: true },
   );
+
+document.addEventListener("DOMContentLoaded", () => {
+  const venueSections = document.querySelectorAll(".venue-section");
+
+  // Reveal each venue as it enters the screen.
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+      },
+    );
+
+    venueSections.forEach((section) => {
+      observer.observe(section);
+    });
+  } else {
+    venueSections.forEach((section) => {
+      section.classList.add("is-visible");
+    });
+  }
+});
 
 /* music (generated soft tones — no audio file needed) */
 (function () {

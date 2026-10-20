@@ -7,7 +7,10 @@
   --img-mehndi: url(images/event-mehndi.jpg);
   --img-ring: url(images/event-ring.jpg);
   --img-wedding: url(images/event-wedding.jpg);
-  --img-venue: url(images/venue.jpg);
+  /* Venue background images */
+  --img-venue: url("images/thePage.jpg");
+  --venue-image: url("images/thePage.jpg");
+  --venue-image-second: url("images/zorbagh.jpg");
   --blush: #fbe8ed;
   --ivory: #fff9f0;
   --rose: #d98ba1;
@@ -396,12 +399,78 @@ h2.t {
   transform: translateY(-6px);
   box-shadow: 0 26px 50px rgba(60, 20, 30, 0.35);
 }
+
+/* Event cards: transparent photos with stronger text */
+.ec {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Fade the image without fading the text */
 .ec::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(10, 5, 10, 0.3), rgba(10, 5, 10, 0.72));
+  z-index: -2;
+  background: inherit;
+  opacity: 0.38; /* Image transparency: adjust this */
+  pointer-events: none;
 }
+
+/* Strong overlay to improve text readability */
+.ec::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    rgba(50, 12, 25, 0.48),
+    rgba(35, 8, 18, 0.78)
+  );
+  pointer-events: none;
+}
+
+/* Keep all event text above both layers */
+.ec > div {
+  position: relative;
+  z-index: 1;
+}
+
+/* Event titles */
+.ec h3 {
+  color: #fff0f3;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.2;
+  text-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.9),
+    0 0 12px rgba(0, 0, 0, 0.45);
+}
+
+/* Event descriptions */
+.ec p {
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.6;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.95);
+}
+
+/* Date and time */
+.ec .m {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.ec .m i {
+  color: #ffe0a0;
+  font-weight: 600;
+}
+
 .ec > div {
   position: relative;
   padding: 28px 22px;
@@ -410,28 +479,7 @@ h2.t {
   flex-direction: column;
   color: #eee;
 }
-.ec h3 {
-  margin: 0;
-  font-size: 30px;
-  color: #ff8ca3;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-  font-weight: 500;
-  line-height: 1.15;
-}
-.ec p {
-  margin: 10px 0 auto;
-  font-size: 19px;
-  color: #f3f3f3;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
-}
-.ec .m {
-  border-top: 1px solid rgba(224, 64, 92, 0.5);
-  margin-top: 24px;
-  padding-top: 12px;
-  display: flex;
-  justify-content: space-around;
-  font-size: 15px;
-}
+
 .ec .m i {
   display: block;
   font-style: normal;
@@ -487,40 +535,268 @@ h2.t {
   font-size: 21px;
   line-height: 1.35;
 }
-/* venue */
-#venue {
-  min-height: max(90vh, 60vw);
-  padding: 70px 20px 0;
-  background: #2a2a4a var(--img-venue) center 32% / cover no-repeat;
+
+/* VENUE SECTIONS */
+
+/* Two venues side by side */
+.venues {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+  padding: 40px 24px;
+  background: var(--blush);
+  overflow: hidden;
 }
-#venue::before {
+
+.venue-section {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  min-height: 520px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px 20px;
+  border-radius: 20px;
+  overflow: hidden;
+
+  background: none !important;
+}
+
+/* Transparent background image */
+.venue-section::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(20, 15, 40, 0.55), transparent 50%);
+  z-index: -2;
+  background: var(--venue-image) center / cover no-repeat;
+  opacity: 0.65;
 }
-#venue .rv {
+
+/* Overlay behind the text */
+.venue-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    rgba(38, 20, 25, 0.25),
+    rgba(25, 15, 18, 0.5)
+  );
+  pointer-events: none;
+}
+
+/* Venue content */
+.venue-content {
   position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  color: #fffaf5;
 }
-#venue h2 {
-  color: #fff;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-  font-size: clamp(34px, 5vw, 48px);
-  margin: 0 0 14px;
+
+.venue-number {
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+  z-index: 1;
+  color: #fffaf5;
+  font-size: 20px;
+  letter-spacing: 3px;
+}
+
+/* Mobile: stack the venues vertically */
+@media (max-width: 650px) {
+  .venues {
+    grid-template-columns: 1fr;
+    padding: 28px 16px;
+    gap: 20px;
+  }
+
+  .venue-section {
+    min-height: 460px;
+    padding: 55px 18px;
+  }
+}
+
+/* Keep the text and button clear */
+.venue-content,
+.venue-number {
+  position: relative;
+  z-index: 1;
+}
+
+.venue-one {
+  --venue-image: var(--img-venue);
+}
+
+.venue-two {
+  --venue-image: var(--venue-image-second);
+}
+
+/* Dark overlay for legible text */
+.venue-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(30, 12, 20, 0.42),
+    rgba(30, 12, 20, 0.62)
+  );
+}
+
+.venue-content,
+.venue-number {
+  position: relative;
+  z-index: 1;
+}
+
+.venue-number {
+  position: absolute;
+  z-index: 2;
+}
+
+/* Text content */
+.venue-content {
+  width: 100%;
+  max-width: 900px;
+  color: #fffaf5;
+  position: relative;
+  z-index: 1;
+}
+
+.venue-eyebrow {
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin: 0 0 18px;
+  color: #f8ddc7;
+}
+
+.venue-content h2 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(38px, 5vw, 66px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin: 0 0 28px;
+  color: #fffaf5;
+}
+
+.venue-content h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(30px, 3.5vw, 52px);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: #f8d7c2;
+}
+
+.venue-location {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(19px, 2vw, 26px);
+  margin: 0 0 38px;
+  color: #fffaf5;
+}
+
+.directions-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 205px;
+  min-height: 80px;
+  padding: 0 32px;
+  box-sizing: border-box;
+
+  background: #c33150;
+  color: #fffaf5;
+  border-radius: 60px;
+  text-decoration: none;
+
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 23px;
   font-weight: 500;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
-#venue h3 {
-  color: #ffd9c2;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-  font-size: clamp(26px, 4vw, 38px);
-  margin: 0;
-  font-weight: 500;
+
+.directions-btn:hover {
+  background: #a82440;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
 }
-#venue p {
-  margin: 6px 0 26px;
-  color: #f3e6ee;
-  font-size: 19px;
+
+.venue-number {
+  position: absolute;
+  right: 36px;
+  bottom: 24px;
+  color: rgba(255, 250, 245, 0.75);
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 20px;
+  letter-spacing: 3px;
 }
+
+/* A subtle transition when sections enter the viewport */
+.venue-section .venue-content {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.venue-section.is-visible .venue-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .venue-section {
+    min-height: 520px;
+    padding: 90px 20px 85px;
+    background-position: center;
+  }
+
+  .venue-content h2 {
+    margin-bottom: 24px;
+  }
+
+  .venue-location {
+    margin-bottom: 30px;
+  }
+
+  .directions-btn {
+    min-height: 62px;
+    min-width: 180px;
+    font-size: 21px;
+  }
+
+  .venue-number {
+    right: 20px;
+    bottom: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .venue-section .venue-content {
+    transition: none;
+    transform: none;
+  }
+
+  .directions-btn {
+    transition: none;
+  }
+}
+
 .btn {
   display: inline-block;
   background: var(--red);
@@ -596,4 +872,48 @@ footer p {
     opacity: 1;
     transform: none;
   }
+}
+
+/* ===== STRONGER VENUE TYPOGRAPHY ===== */
+
+/* Main heading */
+.venue-content h2 {
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.85);
+}
+
+/* Venue names */
+.venue-content h3 {
+  color: #fff4e8;
+  font-weight: 600;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.9);
+}
+
+/* Location */
+.venue-location {
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+}
+
+/* Small heading above the title */
+.venue-eyebrow {
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+}
+
+/* Directions button */
+.directions-btn {
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Venue numbers */
+.venue-number {
+  color: #ffffff;
+  font-weight: 600;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
 }
