@@ -160,6 +160,30 @@ section {
     opacity 0.5s,
     transform 0.7s;
 }
+.logo-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 90px;
+  height: 90px;
+  transform: translate(-50%, -50%);
+  border: 2px solid #b88a4a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  z-index: 3;
+}
+
+.logo-circle .logo {
+  position: static;
+  width: 65%;
+  height: 65%;
+  transform: none;
+  filter: none;
+  object-fit: contain;
+}
 .open .logo {
   opacity: 0;
   transform: translate(-50%, -90%) scale(1.2);
