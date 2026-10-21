@@ -53,7 +53,8 @@ const CFG = {
       title: "Where We Begin",
       name: "The Page",
       city: "Rohtak, Haryana",
-      mapUrl: "https://maps.app.goo.gl/4jkMCLsJFJkvtWLP6",
+      mapUrl:
+        "https://www.google.com/maps/dir/?api=1&destination=The+Page%2C+Rohtak%2C+Haryana",
       image: "images/thePage.jpg",
     },
     {
@@ -61,7 +62,8 @@ const CFG = {
       title: "Where We Continue",
       name: "Zorbagh Banquet",
       city: "Rohtak, Haryana",
-      mapUrl: "https://maps.app.goo.gl/Cwbtrp21qiRQL9d69",
+      mapUrl:
+        "https://www.google.com/maps/dir/?api=1&destination=Zorbagh+Banquet%2C+Rohtak%2C+Haryana",
       image: "images/zorbagh.jpg",
     },
   ],
@@ -143,10 +145,18 @@ if (I.sky) $("sky").style.background = `url(${I.sky}) center/cover`;
 const env = $("env");
 env.addEventListener("click", () => {
   if (env.classList.contains("open")) return;
+
   env.classList.add("open");
   setTimeout(() => document.body.classList.remove("lock"), 1500);
-});
 
+  // Start the rain theme when the envelope is opened.
+  const song = $("wedding-song");
+  if (song) {
+    song.play().catch((error) => {
+      console.warn("Music playback could not start:", error);
+    });
+  }
+});
 /* countdown */
 const target = new Date(`${Y}-12-01T${CFG.startTime}:00${CFG.tz}`);
 const cd = $("cd");
@@ -279,93 +289,59 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/* music (generated soft tones — no audio file needed) */
-(function () {
-  const b = $("mus");
-  let ac,
-    t,
-    on = false,
-    i = 0;
-  const N = [
-    261.6, 329.6, 392, 523.3, 392, 329.6, 293.7, 349.2, 440, 587.3, 440, 349.2,
-  ];
-  function note() {
-    const o = ac.createOscillator(),
-      g = ac.createGain();
-    o.type = "sine";
-    o.frequency.value = N[i++ % N.length];
-    g.gain.setValueAtTime(0, ac.currentTime);
-    g.gain.linearRampToValueAtTime(0.09, ac.currentTime + 0.08);
-    g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 1.6);
-    o.connect(g).connect(ac.destination);
-    o.start();
-    o.stop(ac.currentTime + 1.7);
-  }
-  b.addEventListener("click", () => {
-    try {
-      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
-      if (!on) {
-        ac.resume();
-        note();
-        t = setInterval(note, 700);
-      } else clearInterval(t);
-      on = !on;
-      b.classList.toggle("on", on);
-      b.setAttribute("aria-pressed", on);
-      b.setAttribute("aria-label", on ? "Pause music" : "Play music");
-    } catch (e) {}
-  });
-})();
-
 (() => {
+  const song = document.getElementById("wedding-song");
   const button = document.getElementById("mus");
-  if (!button) return;
 
-  let player;
-  let ready = false;
-  let playing = false;
+  if (!song || !button) return;
 
-  window.onYouTubeIframeAPIReady = function () {
-    player = new YT.Player("youtube-player", {
-      width: "1",
-      height: "1",
-      videoId: "R9dPK8j-QUk",
-      playerVars: {
-        autoplay: 0,
-        controls: 0,
-        playsinline: 1,
-      },
-      events: {
-        onReady: () => {
-          ready = true;
-        },
-        onStateChange: (event) => {
-          if (event.data === YT.PlayerState.ENDED) {
-            playing = false;
-            button.classList.remove("on");
-            button.setAttribute("aria-pressed", "false");
-          }
-        },
-      },
-    });
-  };
+  let musicRequested = false;
 
-  button.addEventListener("click", () => {
-    if (!ready) {
-      alert("Music is loading. Please tap again in a moment!");
-      return;
+  function updateButton(isPlaying) {
+    button.classList.toggle("on", isPlaying);
+    button.setAttribute("aria-pressed", String(isPlaying));
+    button.setAttribute("aria-label", isPlaying ? "Pause music" : "Play music");
+    button.title = isPlaying ? "Pause music" : "Play music";
+  }
+
+  async function playMusic() {
+    if (document.hidden) return;
+
+    try {
+      await song.play();
+      updateButton(true);
+    } catch (error) {
+      updateButton(false);
+      console.warn("Music playback was blocked:", error);
     }
+  }
 
-    if (playing) {
-      player.pauseVideo();
-      playing = false;
+  // Start automatically when the envelope is opened.
+
+  // The button remains available for pause/resume.
+  button.addEventListener("click", async () => {
+    if (!song.paused) {
+      musicRequested = false;
+      song.pause();
+      updateButton(false);
     } else {
-      player.playVideo();
-      playing = true;
+      musicRequested = true;
+      await playMusic();
     }
-
-    button.classList.toggle("on", playing);
-    button.setAttribute("aria-pressed", String(playing));
-    button.setAttribute("aria-label", playing ? "Pause music" : "Play music");
   });
+
+  // Pause in background tabs; resume only if music was requested.
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      song.pause();
+      updateButton(false);
+    } else if (musicRequested) {
+      playMusic();
+    }
+  });
+
+  song.addEventListener("play", () => updateButton(true));
+  song.addEventListener("pause", () => updateButton(false));
+
+  updateButton(false);
 })();
