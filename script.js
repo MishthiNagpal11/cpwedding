@@ -316,3 +316,56 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (e) {}
   });
 })();
+
+(() => {
+  const button = document.getElementById("mus");
+  if (!button) return;
+
+  let player;
+  let ready = false;
+  let playing = false;
+
+  window.onYouTubeIframeAPIReady = function () {
+    player = new YT.Player("youtube-player", {
+      width: "1",
+      height: "1",
+      videoId: "R9dPK8j-QUk",
+      playerVars: {
+        autoplay: 0,
+        controls: 0,
+        playsinline: 1,
+      },
+      events: {
+        onReady: () => {
+          ready = true;
+        },
+        onStateChange: (event) => {
+          if (event.data === YT.PlayerState.ENDED) {
+            playing = false;
+            button.classList.remove("on");
+            button.setAttribute("aria-pressed", "false");
+          }
+        },
+      },
+    });
+  };
+
+  button.addEventListener("click", () => {
+    if (!ready) {
+      alert("Music is loading. Please tap again in a moment!");
+      return;
+    }
+
+    if (playing) {
+      player.pauseVideo();
+      playing = false;
+    } else {
+      player.playVideo();
+      playing = true;
+    }
+
+    button.classList.toggle("on", playing);
+    button.setAttribute("aria-pressed", String(playing));
+    button.setAttribute("aria-label", playing ? "Pause music" : "Play music");
+  });
+})();
