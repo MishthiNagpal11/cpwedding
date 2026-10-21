@@ -11,7 +11,12 @@ const CFG = {
   ],
   familyNames: ["Mrs. Shammi & Mr. Mahesh Takkar"],
   brideFamily: "D/O Mrs. Ruchi & Mr. Dinesh Harjai",
-  familyHeading: "Takkar Family",
+  familyHeading: [
+    "Takkar Family",
+    "Nagpal Family",
+    "Khurana Family",
+    "Katyal Family",
+  ],
   events: [
     {
       cls: "s",
@@ -85,7 +90,19 @@ $("dt").textContent = "2nd December " + Y;
 $("fn").textContent = CFG.groom + " & " + CFG.bride;
 $("fd").textContent = "1st & 2nd December " + Y;
 $("fh2").textContent = CFG.hashtag;
-$("fh").textContent = CFG.familyHeading;
+const heading = $("fh");
+heading.replaceChildren();
+
+const familyNames = Array.isArray(CFG.familyHeading)
+  ? CFG.familyHeading
+  : [CFG.familyHeading];
+
+familyNames.forEach((name) => {
+  const span = document.createElement("span");
+  span.className = "family-heading";
+  span.textContent = name;
+  heading.appendChild(span);
+});
 
 /* Render both venue sections in CFG.venues order */
 const venueSections = document.querySelectorAll(".venue-section");
