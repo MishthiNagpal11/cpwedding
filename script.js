@@ -16,7 +16,7 @@ const CFG = {
     {
       cls: "s",
       t: "Palms of Promise",
-      d: "An enchanting evening of music, dance and unforgettable memories.",
+      d: "An enchanting afternoon of love, laughter, music and cherished memories.",
       date: "1<sup>st</sup> December",
       time: "11:00 AM",
       venue: "The Page, Rohtak",
@@ -68,7 +68,7 @@ const CFG = {
     },
   ],
 
-  hashtag: "#HumPARCHhayaIshq",
+  hashtag: "#HumParChhaayaIshq",
   images: { sky: "", haldi: "", sangeet: "", ring: "", wedding: "", venue: "" }, // optional: paste image URLs / data URIs to replace the drawn backgrounds
 };
 /* ==================== */

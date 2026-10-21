@@ -410,14 +410,12 @@ h2.t {
 }
 
 /* Fade the image without fading the text */
+
 .ec::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -2;
-  background: inherit;
-  opacity: 0.38; /* Image transparency: adjust this */
-  pointer-events: none;
+  background: linear-gradient(rgba(10, 5, 10, 0.12), rgba(10, 5, 10, 0.35));
 }
 
 /* Strong overlay to improve text readability */
