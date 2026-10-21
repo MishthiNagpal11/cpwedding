@@ -152,6 +152,7 @@ env.addEventListener("click", () => {
   // Start the rain theme when the envelope is opened.
   const song = $("wedding-song");
   if (song) {
+    song.currentTime = 50; // Start at 0:50
     song.play().catch((error) => {
       console.warn("Music playback could not start:", error);
     });
