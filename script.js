@@ -176,7 +176,7 @@ env.addEventListener("click", () => {
   }
 });
 /* countdown */
-const target = new Date(`${Y}-12-01T${CFG.startTime}:00${CFG.tz}`);
+const target = new Date(`${Y}-12-02T${CFG.startTime}:00${CFG.tz}`);
 const cd = $("cd");
 cd.innerHTML = ["DAYS", "HOURS", "MINUTES", "SECONDS"]
   .map((l) => `<div><b>0</b><span>${l}</span></div>`)
