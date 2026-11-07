@@ -24,7 +24,7 @@ const CFG = {
       d: "An enchanting afternoon of love, laughter, music and cherished memories.",
       date: "1<sup>st</sup> December",
       time: "11:00 AM",
-      venue: "The Page, Rohtak",
+      venue: "The page -Amanat hall",
     },
     {
       cls: "r",
@@ -32,7 +32,7 @@ const CFG = {
       d: "A golden promise exchanged by candlelight, among flowers and family.",
       date: "1<sup>st</sup> December",
       time: "7:30 PM",
-      venue: "The Page, Rohtak",
+      venue: "The page -opus hall",
     },
     {
       cls: "h",
@@ -40,7 +40,7 @@ const CFG = {
       d: "A pop of hot pink for her, a touch of lavender for him.",
       date: "2<sup>nd</sup> December",
       time: "11:00 AM",
-      venue: "The Page, Rohtak",
+      venue: "The page-terrace",
     },
     {
       cls: "w",
