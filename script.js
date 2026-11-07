@@ -141,7 +141,17 @@ CFG.venues.forEach((venue, index) => {
 $("ev").innerHTML = CFG.events
   .map(
     (e) =>
-      `<article class="ec rv ${e.cls}"><div><h3>${e.t}</h3><p>${e.d}</p><div class="m"><span><i>DATE</i>${e.date}</span><span><i>TIME</i>${e.time}</span></div></div></article>`,
+      `<article class="ec rv ${e.cls}">
+        <div>
+          <h3>${e.t}</h3>
+          <p>${e.d}</p>
+          <div class="m">
+            <span><i>DATE:</i> ${e.date}</span>
+            <span><i>TIME:</i> ${e.time}</span>
+            <span><i>VENUE:</i> ${e.venue}</span>
+          </div>
+        </div>
+      </article>`,
   )
   .join("");
 const I = CFG.images;
